@@ -1,56 +1,47 @@
 'use strict';
 
-var fs = require('fs'),
-    gulp = require('gulp'),
-    nodemon = require('gulp-nodemon'),
-    gutil = require('gulp-util'),
-    concat = require('gulp-concat'),
-    watch = require('gulp-watch'),
-    ngAnnotate = require('gulp-ng-annotate'),
+var gulp = require('gulp'),
     prefixer = require('gulp-autoprefixer'),
+    concat = require('gulp-concat'),
+    ngAnnotate = require('gulp-ng-annotate'),
     inject = require('gulp-inject'),
-    uglify = require('gulp-uglify'),
+    cssmin = require('gulp-minify-css'),
+    nodemon = require('gulp-nodemon'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
-    cssmin = require('gulp-minify-css'),
-    mainBowerFiles = require('main-bower-files'),
-    rimraf = require('rimraf'),
+    uglify = require('gulp-uglify'),
+    gutil = require('gulp-util'),
+    watch = require('gulp-watch'),
+
     browserSync = require("browser-sync"),
     exec = require('child_process').exec,
-    reload = browserSync.reload;
+    fs = require('fs'),
+    mainBowerFiles = require('main-bower-files'),
+    rimraf = require('rimraf');
  
-var app = "app.js";
 var path = {
-    build: {
-        www: {
-            root: 'build/wwwroot/',
-            img: 'build/wwwroot/img/',
-            js: 'build/wwwroot/js/',
-            style: 'build/wwwroot/style/'
-        },
-        server: 'build/srv/',
-        db: 'build/db/'
+    public: {
+        root: 'public/',
+        img: 'public/img/',
+        js: 'public/js/',
+        style: 'public/style/'
     },
+
     src: {
-        www: {
-            html: ['src/wwwroot/**/*.html', 'src/wwwroot/*.ico'],
-            img: 'src/wwwroot/img/**/*.*',
-            js: ['src/wwwroot/app/*.js', 'src/wwwroot/app/**/*.js', 'src/wwwroot/js/**/*.*'],
-            style: 'src/wwwroot/style/**/*.*'
-        },
-        server: 'src/srv/**/*.*',
-        db: 'src/db/'
+        html: ['src/**/*.html', 'src/*.ico'],
+        img: 'src/img/**/*.*',
+        js: ['src/app/*.js', 'src/app/**/*.js', 'src/js/**/*.*'],
+        style: 'src/style/**/*.*'
     },
+
     watch: {
-        www: {
-            html: 'src/wwwroot/**/*.html',
-            img: 'src/wwwroot/img/**/*.*',
-            js: 'src/wwwroot/**/*.js',
-            style: 'src/wwwroot/style/**/*.*'
-        }, 
-        server: 'src/srv/**/*.*'
+        html: 'src/**/*.html',
+        img: 'src/img/**/*.*',
+        js: 'src/**/*.js',
+        style: 'src/style/**/*.*'
     },
-    clean: './build'
+
+    clean: './public'
 };
 
 var webConfig = {
@@ -58,59 +49,46 @@ var webConfig = {
     port: 9000,
     tunnel: 'ametroeditordev',
     logPrefix: 'ametro-dev',
-    serveStatic: [path.build.www.root],
-    proxy: 'http://localhost:3000',
-    reloadDelay: 1000,
-    reloadDebounce: 2000
+    serveStatic: [path.public.root],
+    proxy: 'http://localhost:3000'
 };
 
 var nodeConfig = {
-    script: path.build.server + app, 
+    script: 'index.js', 
     ext: 'js json', 
-    watch: path.build.server,
+    watch: ['**\*.js', '!src', '!public', '!gulpfile.js','!data'],
     env: { 'NODE_ENV': 'development' }
 };
 
-gulp.task('server:build', function () {
-    return gulp.src(path.src.server)
-        .pipe(gulp.dest(path.build.server))
-        .pipe(reload({stream: true}));
+gulp.task('html:build', function () {
+    return gulp.src(path.src.html)
+        .pipe(gulp.dest(path.public.root));
 });
 
-
-gulp.task('html:www:build', function () {
-    return gulp.src(path.src.www.html)
-        .pipe(gulp.dest(path.build.www.root))
-        .pipe(reload({stream: true}));
+gulp.task('image:build', function () {
+    return gulp.src(path.src.img)
+        .pipe(gulp.dest(path.public.img));
 });
 
-gulp.task('image:www:build', function () {
-    return gulp.src(path.src.www.img)
-        .pipe(gulp.dest(path.build.www.img))
-        .pipe(reload({stream: true}));
-});
-
-gulp.task('js:www:build', function () {
-    return gulp.src(path.src.www.js)
+gulp.task('js:build', function () {
+    return gulp.src(path.src.js)
         .pipe(sourcemaps.init())
         .pipe(concat('app.js'))
         .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(path.build.www.js))
-        .pipe(reload({stream: true}));
+        .pipe(gulp.dest(path.public.js));
 });
 
-gulp.task('style:www:build', function () {
-    return gulp.src(path.src.www.style)
+gulp.task('style:build', function () {
+    return gulp.src(path.src.style)
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(prefixer())
         .pipe(cssmin())
         .pipe(concat('app.css'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(path.build.www.style))
-        .pipe(reload({stream: true}));
+        .pipe(gulp.dest(path.public.style));
 });
 
 gulp.task('js:vendor:build', function() {
@@ -118,7 +96,7 @@ gulp.task('js:vendor:build', function() {
         .pipe(sourcemaps.init())
         .pipe(concat('vendor.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(path.build.www.js));
+        .pipe(gulp.dest(path.public.js));
 });
 
 gulp.task('style:vendor:build', function() {
@@ -126,36 +104,32 @@ gulp.task('style:vendor:build', function() {
         .pipe(sourcemaps.init())
         .pipe(concat('vendor.css'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(path.build.www.style));
+        .pipe(gulp.dest(path.public.style));
 });
 
 gulp.task('build', 
     [
-        'html:www:build',
-        'image:www:build',
-        'js:www:build',
-        'style:www:build',
+        'html:build',
+        'image:build',
+        'js:build',
+        'style:build',
         'js:vendor:build',
-        'style:vendor:build',
-        'server:build'
+        'style:vendor:build'
     ], 
     function(){});
 
 gulp.task('watch', function(){
-    watch([path.watch.server], function(event, cb) {
-        gulp.start('server:build');
+    watch([path.watch.html], function(event, cb) {
+        gulp.start('html:build');
     });
-    watch([path.watch.www.html], function(event, cb) {
-        gulp.start('html:www:build');
+    watch([path.watch.img], function(event, cb) {
+        gulp.start('image:build');
     });
-    watch([path.watch.www.img], function(event, cb) {
-        gulp.start('image:www:build');
+    watch([path.watch.js], function(event, cb) {
+        gulp.start('js:build');
     });
-    watch([path.watch.www.js], function(event, cb) {
-        gulp.start('js:www:build');
-    });
-    watch([path.watch.www.style], function(event, cb) {
-        gulp.start('style:www:build');
+    watch([path.watch.style], function(event, cb) {
+        gulp.start('style:build');
     });
 });
 
@@ -164,20 +138,19 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('db:start', function (cb) {
-    
-    //TODO: workaround, need another implementation
-    try{ fs.mkdirSync(path.build.db); }catch(e){} 
-
-    exec('mongod --dbpath ' + path.build.db, function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
+    fs.mkdir('data', function(){
+        exec('mongod --dbpath data', function (err, stdout, stderr) {
+            console.log(stdout);
+            console.log(stderr);
+            cb(err);
+        });
     });
-})
+
+});
 
 gulp.task('server:start', function () {
     nodemon(nodeConfig);
-})  
+});
 
 gulp.task('www:start', function () { 
     browserSync(webConfig); 

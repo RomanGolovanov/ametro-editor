@@ -1,14 +1,14 @@
 {
-  "name": "ametro-web",
+  "name": "ametro-editor",
   "version": "1.0.0",
-  "description": "aMetro web site",
+  "description": "aMetro map editor web application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://hub.skiif.org/roman.golovanov/ametro-web.git"
+    "url": "https://hub.skiif.org/roman.golovanov/ametro-editor.git"
   },
   "author": "Roman Golovanov",
   "license": "MIT",

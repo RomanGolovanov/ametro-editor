@@ -1,3 +1,5 @@
+wwwroot/
+data/
 build/
 bower_components/
 coverage/

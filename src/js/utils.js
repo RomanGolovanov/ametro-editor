@@ -1,6 +1,7 @@
+'use strict';
+
 if (!Array.prototype.remove) {
   Array.prototype.remove = function(element) {
-    'use strict';
 
     if (this === void 0 || this === null) {
       throw new TypeError();
