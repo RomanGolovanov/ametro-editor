@@ -9,10 +9,13 @@
 
     <link rel="stylesheet" href="style/vendor.css">
     <link rel="stylesheet" href="style/app.css">
-</head>
-<body ng-app="aMetroEditor" ng-cloak ng-controller="AppController as ctrl">
 
-    <div class="ametro-editor" >
+</head>
+<body ng-app="aMetroEditor">
+    <div class="ametro-boot" ng-show="">
+        <div class="center"><h3>Loading...</h3></div>
+    </div>
+    <div class="ametro-editor" ng-cloak ng-controller="AppController as ctrl">
         <md-toolbar class="md-menu-toolbar">
             <div layout="row">
                 <md-toolbar-filler  layout layout-align="center center" class="link" ng-click="ctrl.navigate('/', $event)">

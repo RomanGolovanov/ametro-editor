@@ -122,6 +122,7 @@ gulp.task('build',
     [
         'html:build',
         'templates:build',
+        'icons:build',
         'image:build',
         'js:build',
         'style:build',

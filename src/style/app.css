@@ -1,6 +1,26 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
-  display: none;
+    display: none;
 }
+
+.ametro-boot {
+    background-color: #e1e1e1;
+    width: 100%;
+    height: auto;
+    bottom: 0px;
+    top: 0px;
+    left: 0;
+    position: absolute;    
+}
+
+.ametro-boot .center {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 20%;
+    left: 50%;
+    margin-left: -50px; /* margin is -0.5 * dimension */
+    margin-top: -25px; 
+}​
 
 body{
     background-color: #e1e1e1;
@@ -60,25 +80,25 @@ body{
 }  
 
 .ametro-editor canvas#editor {
-  border:0;
+    border:0;
 }
 
 .ametro-editor .link {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .ametro-editor .selected {
-  background-color: rgb(76,175,80);
-  color: white;
+    background-color: rgb(76,175,80);
+    color: white;
 }
 
 .ametro-editor .md-datepicker-button {
-  width: 36px; 
+    width: 36px; 
 }
 
 .ametro-editor .upload {
 }
 
 .ametro-editor .active-list-item {
-  background-color: rgb(76,175,80);
+    background-color: rgb(76,175,80);
 }
