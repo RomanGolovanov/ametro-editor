@@ -1,0 +1,223 @@
+<md-menu-bar ng-controller="MenuController as menu">
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">File</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="editor:insert-drive-file"></md-icon>
+        <md-button ng-click="menu.createMap($event)">New map</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:folder-open"></md-icon>
+        <md-button ng-click="menu.uploadMap($event)">Open map</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:save"></md-icon>
+        <md-button ng-click="menu.downloadMap($event)">Save map</md-button>
+      </md-menu-item>
+
+      <md-menu-divider></md-menu-divider>
+
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:settings"></md-icon>
+        <md-button ng-click="ctrl.navigate('settings', $event)">Settings</md-button>
+      </md-menu-item>
+
+    </md-menu-content>
+  </md-menu>
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">Edit</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="undo"></md-icon>
+        <md-button ng-disabled="!menu.settings.edit.undo" ng-click="menu.emit('undo', $event)">Undo<span class="md-alt-text">{{ 'M-Z' | keyboardShortcut }}</span></md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="redo"></md-icon>
+        <md-button ng-disabled="!menu.settings.edit.redo" ng-click="menu.emit('redo', $event)">Redo<span class="md-alt-text">{{ 'M-Y' | keyboardShortcut }}</span></md-button>
+      </md-menu-item>
+      <md-menu-divider></md-menu-divider>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="content-cut"></md-icon>
+        <md-button ng-disabled="!menu.settings.edit.cut" ng-click="menu.emit('cut', $event)">Cut<span class="md-alt-text">{{ 'M-X' | keyboardShortcut }}</span></md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="content-copy"></md-icon>
+        <md-button ng-disabled="!menu.settings.edit.copy" ng-click="menu.emit('copy', $event)">Copy<span class="md-alt-text">{{ 'M-C' | keyboardShortcut }}</span></md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="content-paste"></md-icon>
+        <md-button ng-disabled="!menu.settings.edit.paste" ng-click="menu.emit('paste', $event)">Paste<span class="md-alt-text">{{ 'M-P' | keyboardShortcut }}</span></md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">View</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="editor:mode-edit"></md-icon>
+        <md-button ng-click="ctrl.navigate('map/details', $event)">Map details</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="maps:map"></md-icon>
+        <md-button ng-click="ctrl.navigate('map/editor', $event)">Scheme editor</md-button>
+      </md-menu-item>
+    </md-menu-content>
+
+    </md-menu-content>
+  </md-menu>
+
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">Schemes</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-menu>
+          <md-button ng-click="$mdOpenMenu()">Select scheme</md-button>
+          <md-menu-content width="3">
+            <md-menu-item type="radio" ng-model="menu.settings.currentSchemeId" ng-repeat="scheme in menu.settings.schemes" value="{{scheme.id}}">
+                {{scheme.name}}
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-menu-item>
+
+      <md-menu-item class="md-indent">
+        <md-menu>
+          <md-button ng-click="$mdOpenMenu()">Layers</md-button>
+          <md-menu-content width="3">
+            <md-menu-item type="radio" ng-model="menu.settings.view.layers" value="all">All layers</md-menu-item>
+            <md-menu-item type="radio" ng-model="menu.settings.view.layers" value="vector">All but background</md-menu-item>
+            <md-menu-item type="radio" ng-model="menu.settings.view.layers" value="background">Background only (no opacity)</md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-menu-item>
+
+      <md-menu-item  class="md-indent">
+        <md-icon md-svg-icon="maps:map"></md-icon>
+        <md-button ng-click="menu.emit('loadBackground', $event)">Set background layer...</md-button>
+      </md-menu-item>
+
+      <md-menu-divider></md-menu-divider>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:add"></md-icon>
+        <md-button ng-click="menu.addScheme($event)">New scheme...</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="image:edit"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentSchemeId" ng-click="menu.editScheme($event)">
+          Edit scheme<span class="md-alt-text">{{ 'M-M' | keyboardShortcut }}</span></md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:delete"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentSchemeId" ng-click="menu.deleteScheme($event)">Delete scheme</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:build"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentSchemeId" ng-click="menu.editSchemeDefaults($event)">Edit defaults</md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">Lines</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-menu>
+          <md-button ng-disabled="menu.hasEmptyLines()" ng-click="$mdOpenMenu()">Select line</md-button>
+          <md-menu-content width="3">
+            <md-menu-item type="radio" ng-model="menu.settings.currentLineId" ng-repeat="line in menu.settings.lines" value="{{line.id}}">
+                {{line.name}}
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-menu-item>
+      <md-menu-divider></md-menu-divider>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:add"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentSchemeId" ng-click="menu.addLine($event)">New line...</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="image:edit"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentLineId" ng-click="menu.editLine($event)">
+          Edit line</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:settings"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentLineId" ng-click="menu.editLineDefaults($event)">Edit line defaults</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:delete"></md-icon>
+        <md-button ng-disabled="!menu.settings.currentLineId" ng-click="menu.deleteLine($event)">Delete line</md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">Transports</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-menu>
+          <md-button ng-click="$mdOpenMenu()">Select transport</md-button>
+          <md-menu-content width="3">
+            <md-menu-item type="radio" ng-model="menu.settings.transports.current" ng-repeat="transport in menu.settings.transports.items" value="{{transport.id}}">
+                {{transport.name}}
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-menu-item>
+      <md-menu-divider></md-menu-divider>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:add"></md-icon>
+        <md-button ng-click="menu.addTransport($event)">New transport...</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="image:edit"></md-icon>
+        <md-button ng-disabled="!menu.settings.transports.current" ng-click="menu.editTransport($event)">Edit transport</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:delete"></md-icon>
+        <md-button ng-disabled="!menu.settings.transports.current" ng-click="menu.deleteTransport($event)">Delete transport</md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+
+
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">Translation</button>
+    <md-menu-content>
+      <md-menu-item class="md-indent">
+        <md-menu>
+          <md-button ng-disabled="menu.hasEmptyLocales()" ng-click="$mdOpenMenu()">Select locale</md-button>
+          <md-menu-content width="3">
+            <md-menu-item type="radio" ng-model="menu.settings.translation.current" ng-repeat="locale in menu.settings.translation.items" value="{{locale.id}}">
+                {{locale.name}}
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-menu-item>
+      <md-menu-divider></md-menu-divider>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:add"></md-icon>
+        <md-button ng-click="menu.addLocale($event)">New locale...</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="image:edit"></md-icon>
+        <md-button ng-disabled="!menu.settings.translation.current" ng-click="menu.editLocale($event)">Edit locale</md-button>
+      </md-menu-item>
+      <md-menu-item class="md-indent">
+        <md-icon md-svg-icon="icons:delete"></md-icon>
+        <md-button ng-disabled="!menu.settings.translation.current" ng-click="menu.deleteLocale($event)">Delete locale</md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+
+
+  <md-menu>
+    <button ng-click="$mdOpenMenu()">Help</button>
+    <md-menu-content>
+      <md-menu-item ng-repeat="item in menu.settings.help.items"class="md-indent">
+        <md-icon md-svg-icon="{{item.icon}}"></md-icon>
+        <md-button ng-click="ctrl.navigate(item.url, $event)">{{item.name}}</md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+</md-menu-bar>

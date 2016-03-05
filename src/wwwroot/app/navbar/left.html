@@ -1,0 +1,19 @@
+<md-toolbar class="md-theme-indigo">
+  <h1 class="md-toolbar-tools">ToolBox</h1>
+</md-toolbar>
+<md-content ng-controller="NavigationController as nav">
+  <md-list>
+      <md-subheader class="md-no-sticky">Edit: </md-subheader>
+      <md-list-item class="{{nav.getItemStyle(item)}}" ng-repeat="item in nav.settings.modes" ng-click="nav.emit(item.event, $event)">
+          <md-icon md-svg-icon="{{item.icon}}"></md-icon><p>{{item.name}}</p>
+      </md-list-item>
+
+      <md-divider ></md-divider>
+
+      <md-subheader class="md-no-sticky">Information: </md-subheader>
+      <md-list-item ng-repeat="item in nav.settings.pages" ng-click="nav.emit(item.event, $event)">
+          <md-icon md-svg-icon="{{item.icon}}"></md-icon><p>{{item.name}}</p>
+      </md-list-item>
+
+  </md-list>
+</md-content>

@@ -1,0 +1,37 @@
+
+<div class="page-tools md-menu-toolbar" ng-controller="ToolbarController as toolbar">
+	<div ng-show="toolbar.settings.visible"> 
+		<span class="page-tools-divider"></span>
+		<md-button aria-label="Undo" ng-disabled="!toolbar.settings.undo" ng-click="toolbar.emit('undo', $event)"><md-icon md-svg-icon="undo"></md-icon></md-button>
+		<md-button aria-label="Redo" ng-disabled="!toolbar.settings.redo" ng-click="toolbar.emit('redo', $event)"><md-icon md-svg-icon="redo"></md-icon></md-button>
+		<span class="page-tools-divider"></span>
+		<md-button aria-label="Cut"  ng-disabled="!toolbar.settings.cut" ng-click="toolbar.emit('cut', $event)"><md-icon md-svg-icon="content-cut"></md-icon></md-button>
+		<md-button aria-label="Copy" ng-disabled="!toolbar.settings.copy" ng-click="toolbar.emit('copy', $event)"><md-icon md-svg-icon="content-copy"></md-icon></md-button>
+		<md-button aria-label="Paste" ng-disabled="!toolbar.settings.paste" ng-click="toolbar.emit('paste', $event)"><md-icon md-svg-icon="content-paste"></md-icon></md-button>
+		<span class="page-tools-divider"></span>
+		<md-button aria-label="Connect" ng-disabled="!toolbar.settings.connect" ng-click="toolbar.emit('connect', $event)"><md-icon md-svg-icon="icons:timeline"></md-icon><label hide-xs hide-sm>Connect</label></md-button>
+		<md-button aria-label="Delete" ng-disabled="!toolbar.settings.delete" ng-click="toolbar.emit('delete', $event)"><md-icon md-svg-icon="icons:delete"></md-icon><label hide-xs hide-sm>Delete</label></md-button>
+
+		<span class="page-tools-divider"></span>
+		<md-input-container md-no-float hide-xs hide-sm>
+        	<md-select ng-disabled="toolbar.settings.schemes.length === 0" ng-model="toolbar.settings.currentSchemeId" placeholder="Current Scheme">
+          		<md-option ng-repeat="scheme in toolbar.settings.schemes" value="{{scheme.id}}">{{scheme.name}}</md-option>
+        	</md-select>
+      	</md-input-container>
+
+		<md-input-container md-no-float hide-xs hide-sm>
+        	<md-select ng-disabled="toolbar.settings.lines.length === 0" ng-model="toolbar.settings.currentLineId" placeholder="Current Line">
+          		<md-option ng-repeat="line in toolbar.settings.lines" value="{{line.id}}">
+          			<span style="background-color: {{line.color || line.defaultColor }}; width:1em; height: 1em; display: inline-block;"></span>
+          				{{line.name}}
+  				</md-option>
+        	</md-select>
+      	</md-input-container>
+
+		<md-button aria-label="Show tools" ng-click="ctrl.toggleLeft()">Tools</md-button>
+		<md-button aria-label="Show transports" ng-click="ctrl.toggleRight()">Transports</md-button>
+
+</div>
+
+
+

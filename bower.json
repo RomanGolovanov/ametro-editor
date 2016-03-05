@@ -1,0 +1,85 @@
+{
+  "name": "ametro-web",
+  "description": "aMetro web site",
+  "main": "index.js",
+  "authors": [
+    "Roman Golovanov"
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "amd"
+  ],
+  "homepage": "https://www.ametro.org",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-animate": "^1.5.0",
+    "angular-aria": "^1.5.0",
+    "angular-messages": "^1.5.0",
+    "angular-route": "^1.5.0",
+    "angular-material": "^1.0.5",
+    "filer": "^0.0.44",
+    "FileSaver.js": "^0.0.2",
+    "IndexedDBShim": "^2.2.1",
+    "jszip": "^2.5.0",
+    "jQuery": "^2.2.1",
+    "paper": "^0.9.25",
+    "windows-1251": "^0.1.2"
+  },
+  "overrides": {
+    "angular": {
+      "main": "angular.min.js"
+    },
+    "angular-aria": {
+      "dependencies": { "angular": "*" },
+      "main": "angular-aria.min.js"
+    },
+    "angular-animate": {
+      "dependencies": { "angular": "*" },
+      "main": "angular-animate.min.js"
+    },
+    "angular-messages": {
+      "dependencies": { "angular": "*" },
+      "main": "angular-messages.min.js"
+    },
+    "angular-route": {
+      "dependencies": { "angular": "*" },
+      "main": "angular-route.min.js"
+    },
+    "angular-material": {
+      "dependencies": { "angular": "*" },
+      "main": [
+        "angular-material.min.js",
+        "angular-material.min.css"
+      ]
+    },
+    "filer": {
+      "main": "dist/filer.min.js"
+    },
+    "FileSaver.js": {
+      "main": "FileSaver.min.js"
+    },
+    "IndexedDBShim": {
+      "main": "dist/indexeddbshim.min.js"
+    },
+    "jQuery": {
+      "main": "dist/jquery.min.js"
+    },
+    "jszip": {
+      "main": "dist/jszip.min.js"
+    },
+    "paper": {
+      "main": "dist/paper-full.min.js"
+    },
+    "windows-1251": {
+      "main": "windows-1251.js"
+    }
+  }
+}

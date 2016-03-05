@@ -1,0 +1,31 @@
+<h1>Map Details</h1>
+<div class="md-inline-form" ng-controller="MapDetailsController as details">
+  
+  <md-content layout="row">
+    <md-input-container flex>
+      <label>Map Name (default: as city name)</label>
+      <input ng-model="details.settings.metadata.name" >
+    </md-input-container>
+  </md-content>
+  <md-content layout="row">
+    <md-input-container>
+      <label>Country Name</label>
+      <input ng-model="details.settings.metadata.countryName">
+    </md-input-container>
+    <md-input-container>
+      <label>City Name</label>
+      <input ng-model="details.settings.metadata.cityName">
+    </md-input-container>
+  </md-content>
+  <md-content layout="row">
+    <md-input-container class="md-block" flex>
+      <label>Map Authors / Description</label>
+      <textarea ng-model="details.settings.metadata.comments" rows="10" md-select-on-focus>
+      </textarea>
+    </md-input-container>
+  </md-content>
+  <md-content layout="row">
+    <md-button class="md-primary md-raised">Save</md-button>
+    <md-button>Cancel</md-button>
+  </md-content>  
+</div>
