@@ -4,16 +4,14 @@ var gulp = require('gulp'),
     prefixer = require('gulp-autoprefixer'),
     concat = require('gulp-concat'),
     ngAnnotate = require('gulp-ng-annotate'),
-    inject = require('gulp-inject'),
     cssmin = require('gulp-minify-css'),
     nodemon = require('gulp-nodemon'),
+    open = require('gulp-open'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
-    gutil = require('gulp-util'),
     watch = require('gulp-watch'),
 
-    browserSync = require("browser-sync"),
     exec = require('child_process').exec,
     fs = require('fs'),
     mainBowerFiles = require('main-bower-files'),
@@ -42,15 +40,6 @@ var path = {
     },
 
     clean: './public'
-};
-
-var webConfig = {
-    online: false,
-    port: 9000,
-    tunnel: 'ametroeditordev',
-    logPrefix: 'ametro-dev',
-    serveStatic: [path.public.root],
-    proxy: 'http://localhost:3000'
 };
 
 var nodeConfig = {
@@ -115,8 +104,7 @@ gulp.task('build',
         'style:build',
         'js:vendor:build',
         'style:vendor:build'
-    ], 
-    function(){});
+    ]);
 
 gulp.task('watch', function(){
     watch([path.watch.html], function(event, cb) {
@@ -134,7 +122,7 @@ gulp.task('watch', function(){
 });
 
 gulp.task('clean', function (cb) {
-    return rimraf(path.clean, cb);
+    rimraf(path.clean, cb);
 });
 
 gulp.task('db:start', function (cb) {
@@ -148,15 +136,16 @@ gulp.task('db:start', function (cb) {
 
 });
 
-gulp.task('server:start', function () {
-    nodemon(nodeConfig);
+gulp.task('run', ['build'], function () {
+    return nodemon(nodeConfig);
 });
 
-gulp.task('www:start', function () { 
-    browserSync(webConfig); 
+gulp.task('browser', ['run'], function () {
+    return gulp.src(__filename)
+        .pipe(open({ uri: 'http://localhost:3000' }));
 });
 
-gulp.task('default', ['build', 'db:start', 'server:start', 'www:start', 'watch']);
+gulp.task('default', ['db:start', 'watch', 'browser']);
 
 
 
