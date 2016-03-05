@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     open = require('gulp-open'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
+    svgng = require('gulp-svg-ngmaterial'),
     uglify = require('gulp-uglify'),
     watch = require('gulp-watch'),
 
@@ -22,6 +23,7 @@ var path = {
     public: {
         root: 'public/',
         img: 'public/img/',
+        icons: 'public/img/icons/',
         js: 'public/js/',
         style: 'public/style/'
     },
@@ -29,7 +31,8 @@ var path = {
     src: {
         html: ['src/*.html', 'src/*.ico', '!src/app/**/*.html'],
         templates: 'src/app/**/*.html',
-        img: 'src/img/**/*.*',
+        img: ['src/img/**/*.*', '!src/img/icons/sets/*.svg'],
+        icons: 'src/img/icons/sets/*.svg',
         js: ['src/app/*.js', 'src/app/**/*.js', 'src/js/**/*.*'],
         style: 'src/style/**/*.*'
     },
@@ -38,6 +41,7 @@ var path = {
         html: 'src/*.html',
         templates: 'src/app/**/*.html',
         img: 'src/img/**/*.*',
+        icons: 'src/img/icons/sets/*.svg',
         js: 'src/**/*.js',
         style: 'src/style/**/*.*'
     },
@@ -69,6 +73,12 @@ gulp.task('templates:build', function () {
 gulp.task('image:build', function () {
     return gulp.src(path.src.img)
         .pipe(gulp.dest(path.public.img));
+});
+
+gulp.task('icons:build', function () {
+    return gulp.src(path.src.icons)
+        .pipe(svgng({ filename : "icons.svg"}))
+        .pipe(gulp.dest(path.public.icons));
 });
 
 gulp.task('js:build', function () {
