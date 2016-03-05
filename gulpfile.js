@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp'),
+    templateCache = require('gulp-angular-templatecache'),
     prefixer = require('gulp-autoprefixer'),
     concat = require('gulp-concat'),
     ngAnnotate = require('gulp-ng-annotate'),
@@ -26,14 +27,16 @@ var path = {
     },
 
     src: {
-        html: ['src/**/*.html', 'src/*.ico'],
+        html: ['src/*.html', 'src/*.ico', '!src/app/**/*.html'],
+        templates: 'src/app/**/*.html',
         img: 'src/img/**/*.*',
         js: ['src/app/*.js', 'src/app/**/*.js', 'src/js/**/*.*'],
         style: 'src/style/**/*.*'
     },
 
     watch: {
-        html: 'src/**/*.html',
+        html: 'src/*.html',
+        templates: 'src/app/**/*.html',
         img: 'src/img/**/*.*',
         js: 'src/**/*.js',
         style: 'src/style/**/*.*'
@@ -52,6 +55,15 @@ var nodeConfig = {
 gulp.task('html:build', function () {
     return gulp.src(path.src.html)
         .pipe(gulp.dest(path.public.root));
+});
+
+gulp.task('templates:build', function () {
+    return gulp.src(path.src.templates)
+        .pipe(templateCache({
+            root: 'app',
+            module: 'aMetroEditor'
+        }))
+        .pipe(gulp.dest(path.public.js));
 });
 
 gulp.task('image:build', function () {
@@ -99,6 +111,7 @@ gulp.task('style:vendor:build', function() {
 gulp.task('build', 
     [
         'html:build',
+        'templates:build',
         'image:build',
         'js:build',
         'style:build',
@@ -109,6 +122,9 @@ gulp.task('build',
 gulp.task('watch', function(){
     watch([path.watch.html], function(event, cb) {
         gulp.start('html:build');
+    });
+    watch([path.watch.templates], function(event, cb) {
+        gulp.start('templates:build');
     });
     watch([path.watch.img], function(event, cb) {
         gulp.start('image:build');
