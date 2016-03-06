@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-	settings = require('./settings.js').settings;
+	settings = require('./settings.js');
 
 
 var isConnected;
@@ -17,8 +17,8 @@ db.once('open', function() {
 	isConnected = true;
 });
 
-exports.db = db;
+module.exports.db = db;
 
-exports.isConnected = function(){
+module.exports.isConnected = function(){
 	return db.readyState === 1;
 };

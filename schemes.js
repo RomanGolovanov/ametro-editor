@@ -11,4 +11,14 @@ var MapFile = new Schema({
 	'comment': String
 });
 
-exports.MapFile = db.model('MapFile', MapFile);
+MapFile.methods.json = function json (cb) {
+	return {  	
+		id: this._id,
+		file: this.file,
+		city: this.city,
+		country: this.country,
+		comment: this.comment
+	};
+};
+
+module.exports.MapFile = db.model('MapFile', MapFile);
