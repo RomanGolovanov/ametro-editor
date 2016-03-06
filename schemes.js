@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+	db = require('./connection.js').db,
     Schema = mongoose.Schema;
 
 var MapFile = new Schema({
