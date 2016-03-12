@@ -1,6 +1,6 @@
 {
-  "name": "ametro-web",
-  "description": "aMetro web site",
+  "name": "ametro-editor",
+  "description": "aMetro editor web application",
   "main": "index.js",
   "authors": [
     "Roman Golovanov"
@@ -9,7 +9,7 @@
   "moduleType": [
     "amd"
   ],
-  "homepage": "https://www.ametro.org",
+  "homepage": "https://editor.ametro.org",
   "private": true,
   "ignore": [
     "**/.*",
