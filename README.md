@@ -1,7 +1,7 @@
 # aMetro Editor
 
 This is a experimental editor for transport maps in PMZ format.
-Maps available via [pMetro](http://pmetro.su/Maps.html) web site.
+Maps available via [pMetro](http://pmetro.su/Maps.html) web site ([english version](http://www.microsofttranslator.com/bv.aspx?from=ru&to=en&a=http%3A%2F%2Fpmetro.su%2FMaps.html)).
 
 Demo (nightly builds): https://editor.ametro.org
 
@@ -12,7 +12,7 @@ Currently project is under heavy development.
 Working features:
 * PMZ file opening/saving.
 * Displaying map with stations (but without connections) from PMZ file.
-* Navigation between maps in file.
+* Navigation between maps.
 * Basic station manipulations (selection, moving, connecting).
 
 ## Installing
@@ -21,23 +21,23 @@ Need NodeJS with bower and gulp installed.
 
 ```shell
 
-# Clone sources
+# Clone sources:
 git clone https://github.com/RomanGolovanov/ametro-editor.git
 
-# Install node modules
+# Install node modules:
 npm install
 
-# Install bower modules
+# Install bower modules:
 bower install
 
-# To build project run
+# To build sources:
 gulp build
 
-# To build and run
+# To build and run:
 gulp
 ```
 
-# License
+## License
 
 Copyright (c) 2016 by Roman Golovanov
 All rights reserved.
