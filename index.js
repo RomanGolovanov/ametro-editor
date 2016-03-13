@@ -1,41 +1,43 @@
-'use strict';
+var http = require('http');
+var app = require('./app');
 
-var express = require('express'),
-	app = express(),
-	bodyParser = require('body-parser'),
-	settings = require('./settings.js'),
-	connection = require('./connection.js'),
-	MapFile = require('./schemes.js').MapFile;
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-app.use(express.static('public'));
-app.use(bodyParser.json());
+var server = http.createServer(app);
+server.on('error', onError);
+server.on('listening', onListening);
+server.listen(port);
 
-app.get('/api', function (req, res, next) {
-	res.send({ ver: '1.0', available: connection.isConnected(), timestamp: new Date()});
-});
+function normalizePort(val) {
+	var port = parseInt(val, 10);
+	if (isNaN(port)) return val;
+	if (port >= 0) return port;
+	return false;
+}
 
-app.get('/api/maps', function (req, res, next) {
-	if(!connection.isConnected()){
-		throw "Api not available";
+function onError(error) {
+	if (error.syscall !== 'listen') {
+		throw error;
 	}
-	MapFile.find().exec(function(err, docs) {
-		if (err) return next(err);
-		res.send(docs.map(function(d){ return d.json(); }));
-	});
-});
-
-app.post('/api/maps', function (req, res, next) {
-	console.log(req.body);
-	if(!connection.isConnected()){
-		throw "Api not available";
+	var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+		throw error;
 	}
-	MapFile.create(req.body, function(err, docs) {
-		if (err) return next(err);
-		res.send(docs);
-	});
-});
+}
 
-app.listen(settings.port, settings.host, function () {
-	console.log('Backend service listening on port ' + settings.port);
-});
+function onListening() {
+	var addr = server.address();
+	var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+	console.log('Listening on ' + bind);
+}
 

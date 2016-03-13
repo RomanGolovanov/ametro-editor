@@ -13,7 +13,6 @@
   "author": "Roman Golovanov",
   "license": "MIT",
   "devDependencies": {
-    "body-parser": "^1.15.0",
     "bower": "^1.7.7",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^1.8.0",
@@ -34,8 +33,15 @@
     "rimraf": "^2.5.2"
   },
   "dependencies": {
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
+    "crypto": "0.0.3",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "mongoose": "^4.4.6",
-    "nconf": "^0.8.4"
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
   }
 }
