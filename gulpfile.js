@@ -152,17 +152,6 @@ gulp.task('clean', function (cb) {
     rimraf(path.clean, cb);
 });
 
-gulp.task('db:start', function (cb) {
-    fs.mkdir('data', function(){
-        exec('mongod --dbpath data', function (err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
-            cb(err);
-        });
-    });
-
-});
-
 gulp.task('run', ['build'], function () {
     return nodemon(nodeConfig);
 });
@@ -172,7 +161,7 @@ gulp.task('browser', ['run'], function () {
         .pipe(open({ uri: 'http://localhost:3000' }));
 });
 
-gulp.task('default', ['db:start', 'watch', 'browser']);
+gulp.task('default', ['watch', 'browser']);
 
 
 
