@@ -33,9 +33,4 @@ router.post('/user/logout', function(req, res) {
     res.status(204).send({});
 });
 
-Account.find({}, function(err, data){
-    console.log(data);
-});
-
-
 module.exports = router;
