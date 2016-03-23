@@ -1,5 +1,4 @@
-
-var PmzFile = (function(){
+var PmzModelFile = (function(){
     'use strict';
 
     function enumerateEntries(zip, ext, callback){

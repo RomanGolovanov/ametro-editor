@@ -5,7 +5,7 @@
         .module('aMetroEditor')
         .factory('ModelService', function($rootScope, $timeout){
             var self = this;
-            self.model = PmzFile.create();
+            self.model = PmzModelFile.create();
             self.file = null;
 
             $timeout(function(){
@@ -15,13 +15,13 @@
 
             return {
                 newMap: function(){
-                    self.model = PmzFile.create();
+                    self.model = PmzModelFile.create();
                     self.file = null;
                     $rootScope.$broadcast('model', self.model);
                 },
 
                 loadMap: function(file){
-                    self.model = PmzFile.load(file);
+                    self.model = PmzModelFile.load(file);
                     self.file = file;
                     $rootScope.$broadcast('model', self.model);
                 },
@@ -34,7 +34,7 @@
                             content: (new JSZip()).generate({type:'arraybuffer'})
                         };
                     }
-                    PmzFile.save(self.file, self.model);
+                    PmzModelFile.save(self.file, self.model);
                     return self.file;
                 },
 
