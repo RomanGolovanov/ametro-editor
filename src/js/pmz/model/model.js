@@ -1,11 +1,19 @@
 'use strict';
 
-function PmzModel(metadata, transports, schemes){
+function PmzModel(metadata){
 	this.metadata = metadata;
-	this.transports = transports;
-	this.schemes = schemes;
+	this.transports = {};
+	this.schemes = {};
 	return this;
 }
+
+
+PmzModel.create = function(){
+	var model = new PmzModel(new PmzMetadata('Unknown', null, null, '1.0.0'));
+	model.addTransport('Metro.trp', 'Метро');
+	model.addScheme('Metro.map');
+	return model;
+};
 
 
 PmzModel.prototype.getMetadata = function(){
@@ -34,8 +42,8 @@ PmzModel.prototype.getTransports = function(){
 	return Object.keys(this.transports);
 };
 
-PmzModel.prototype.addTransport = function(name, type){
-	this.transports[name] = new PmzTransport(name, name, { type: type }, {}, {});
+PmzModel.prototype.addTransport = function(name, type, lines, transfers){
+	this.transports[name] = new PmzTransport(name, name, { type: type }, lines || {}, transfers || {});
 };
 
 PmzModel.prototype.removeTransport = function(name){

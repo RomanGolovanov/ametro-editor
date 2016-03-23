@@ -5,7 +5,7 @@
         .module('aMetroEditor')
         .factory('ModelService', function($rootScope, $timeout){
             var self = this;
-            self.model = PmzModelFile.create();
+            self.model = PmzModel.create();
             self.file = null;
 
             $timeout(function(){
@@ -15,7 +15,7 @@
 
             return {
                 newMap: function(){
-                    self.model = PmzModelFile.create();
+                    self.model = PmzModel.create();
                     self.file = null;
                     $rootScope.$broadcast('model', self.model);
                 },

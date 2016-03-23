@@ -56,10 +56,11 @@ var PmzSchemeFile = (function(){
         return lines;
     }
 
-    function filterLineSections(ini, transports){
+    function filterLineSections(ini, model){
         var lineNames = [];
-        Object.keys(transports).forEach(function(key){
-            Array.prototype.push.apply(lineNames, Object.keys(transports[key].lines));
+
+        model.getTransports().forEach(function(key){
+            Array.prototype.push.apply(lineNames, Object.keys(model.getTransport(key).lines));
         });
 
         var sections = {};
@@ -72,10 +73,10 @@ var PmzSchemeFile = (function(){
     }
 
     return {
-        load: function(ini, name, metadata, transports){
+        load: function(ini, name, model){
             var options = loadMapOptions(ini['Options']);
             var additionalNodes = loadAdditionalNodes(ini['AdditionalNodes']);
-            var lines = loadMapLines(filterLineSections(ini, transports), additionalNodes);
+            var lines = loadMapLines(filterLineSections(ini, model), additionalNodes);
             return new PmzScheme(name, name, options, lines);
         },
 

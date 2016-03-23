@@ -32,40 +32,30 @@ var PmzModelFile = (function(){
     }
 
     return {
-        create : function(){
-            var metadata = new PmzMetadata('Unknown', null, null, '1.0.0');
-            var transports = { 'Metro.trp': new PmzTransport('Metro.trp', 'Metro.trp', {}) };
-            var schemes = { 'Metro.map': new PmzScheme('Metro.map', 'Metro.map', {}, {}) };
-
-            return new PmzModel(metadata, transports, schemes);
-        },     
-
         load: function(file){
 
             var zip = openZip(file);
 
-            var metadata;
+            var model = null;
             enumerateIniEntries(zip, '.cty', function(name, ini){
-                metadata = PmzMetadataFile.load(ini);
+                model = new PmzModel(PmzMetadataFile.load(ini));
             });
 
-            if(!metadata){
+            if(!model){
                 throw new TypeError('Invalid file format');
             }
 
-            var transports = {};
             enumerateIniEntries(zip, '.trp', function(name, ini){
-                var transport = PmzTransportFile.load(ini, name, metadata);
-                transports[transport.id] = transport;
+                var transport = PmzTransportFile.load(ini, name, model.getMetadata());
+                model.addTransport(transport.name, transport.options, transport.lines, transport.transfers);
             });
 
-            var schemes = {};
             enumerateIniEntries(zip, '.map', function(name, ini){
-                var scheme = PmzSchemeFile.load(ini, name, metadata, transports);
-                schemes[scheme.id] = scheme;
+                var scheme = PmzSchemeFile.load(ini, name, model);
+                model.addScheme(scheme.name, scheme.options, scheme.lines);
             });
 
-            return new PmzModel(metadata, transports, schemes);
+            return model;
         },
 
         save: function(file, model){
