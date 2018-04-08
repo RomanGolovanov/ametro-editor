@@ -3,8 +3,6 @@
 This is a experimental editor for transport maps in PMZ format.
 Maps available via [pMetro](http://pmetro.su/Maps.html) web site ([english version](http://www.microsofttranslator.com/bv.aspx?from=ru&to=en&a=http%3A%2F%2Fpmetro.su%2FMaps.html)).
 
-Demo (nightly builds): https://editor.ametro.org
-
 ## Project Status
 
 Currently project is under heavy development.
